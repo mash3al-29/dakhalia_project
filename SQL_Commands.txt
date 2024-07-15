@@ -1,0 +1,42 @@
+Creating the Orchards table:
+Create table orchards ( id SERIAL NOT NUll primary key,crop TEXT NOT NULL,feddans INTEGER NOT NULL,mm INTEGER NOT NULL,pest_state TEXT NOT NULL,u_id INTEGER NOT NULL,Foreign key(u_id) REFERENCES users(id));
+
+Creating the users table:
+CREATE TABLE users (id SERIAL PRIMARY KEY,username VARCHAR(50) NOT NULL,password CHAR(64) NOT NULL,UNIQUE (username));
+
+Inserting users:
+INSERT INTO users (username, password) VALUES ('user1', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
+INSERT INTO users (username, password) VALUES ('user2', '0c08a9536b5dd78713f440acb930872fd69f7a71ad0cf9cdedc9628ddf9ac3d7');
+INSERT INTO users (username, password) VALUES ('user3', 'd7da6caa27948d250f1ea385bf587f9d348c7334b23fa1766016b503572a73a8');
+INSERT INTO users (username, password) VALUES ('user4', 'f43640d7c16bae51d37d5d50d6d3dc534b433347d879d683e5a3c7ae36c4009c');
+
+Original users passwords before hashing process:
+12345678
+2345678
+345678
+45678
+
+Inserting Orchards:
+INSERT INTO orchards (crop, feddans,mm,pest_state,u_id) VALUES ('potato', 20,40,'Minimal',2);
+INSERT INTO orchards (crop, feddans,mm,pest_state,u_id) VALUES ('banana', 21,30,'Minimal',2);
+INSERT INTO orchards (crop, feddans,mm,pest_state,u_id) VALUES ('apple', 23,20,'Minimal',2);
+INSERT INTO orchards (crop, feddans,mm,pest_state,u_id) VALUES ('mango', 19,10,'Minimal',2);
+INSERT INTO orchards (crop, feddans,mm,pest_state,u_id) VALUES ('beets', 12,30,'Minimal',1);
+
+Connecting to the local host in app:
+final connection = await Connection.open(
+      Endpoint(
+        host: 'localhost',
+        database: 'farm_orchard_management_dashboard',
+        username: 'postgres',
+        password: 'Asdasd12\$12',
+      ),
+      settings: ConnectionSettings(sslMode: SslMode.disable),
+    );
+
+
+User fetch from the app:
+final result = await connection.execute('SELECT username,password,id FROM users where username = \'$username\'');
+
+Orchards fetch from the app
+final result = await connection.execute('SELECT * FROM orchards where u_id = $u_id');
